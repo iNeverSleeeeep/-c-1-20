@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"strings"
 
 	"github.com/dengsgo/math-engine/engine"
 )
@@ -16,6 +17,7 @@ func main() {
 func calculator(w http.ResponseWriter, r *http.Request) {
 	defer catch(w)
 	expression := r.FormValue("expression")
+	expression = strings.Trim(expression, "\"")
 	result, err := engine.ParseAndExec(expression)
 	if err != nil {
 		w.Write([]byte(fmt.Sprintf("%s", err)))
