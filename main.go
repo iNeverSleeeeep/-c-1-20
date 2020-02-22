@@ -16,6 +16,7 @@ func main() {
 
 func calculator(w http.ResponseWriter, r *http.Request) {
 	defer catch(w)
+	fmt.Println(r.URL)
 	expression := r.FormValue("expression")
 	expression = strings.Trim(expression, "\"")
 	result, err := engine.ParseAndExec(expression)
