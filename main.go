@@ -14,11 +14,18 @@ func main() {
 }
 
 func calculator(w http.ResponseWriter, r *http.Request) {
+	defer catch(w)
 	expression := r.FormValue("expression")
 	result, err := engine.ParseAndExec(expression)
 	if err != nil {
 		w.Write([]byte(fmt.Sprintf("%s", err)))
 	} else {
 		w.Write([]byte(fmt.Sprintf("%f", result)))
+	}
+}
+
+func catch(w http.ResponseWriter) {
+	if err := recover(); err != nil {
+		w.Write([]byte(fmt.Sprintf("%s", err)))
 	}
 }
